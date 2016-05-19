@@ -3,6 +3,7 @@
 #include "QFile"
 #include "QMessageBox"
 #include "QTextStream"
+#include "QDebug"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,21 +18,46 @@ MainWindow::~MainWindow()
 }
 
 QString input_str;
+QString str;
+int num;
+QStringList list;
+QStringList chars;
+
 /*
  * Here goes functions for reading input file
- * and some actions with gathered information
+ *
  */
+
 void read_file (){
     QFile file("input.txt");
+    QRegExp digit("\\d*"); //reg exp for digits
 
     if(!file.open(QIODevice::ReadOnly)){
         QMessageBox::information(0,"Can't read file",file.errorString());
     } else{
-        QTextStream in(&file);
-        input_str = in.readAll();
-    }
 
-    //input_str = in.readLine();
+        QTextStream in(&file);
+        //input_str = in.readAll();
+
+        QString tmp = in.readLine();
+        if(tmp.isEmpty() || !digit.exactMatch(tmp) || tmp.length()>=4){ // TODO: better use switch
+            QMessageBox::information(0,"Error","N is empty or not a digit or bigger than 999");
+        } else{
+            num=tmp.toInt();
+        }
+
+        for(; num != 0; num--){
+            list<<in.readLine();
+        }
+
+        tmp = in.readLine();
+        if(tmp.length()>100 || tmp.isEmpty()){
+            QMessageBox::information(0,"Errrrror","So much chars or no chars");
+        } else{
+            chars = tmp.split("");
+        }
+
+    }
 }
 
 /*
@@ -40,7 +66,8 @@ void read_file (){
  */
 void MainWindow::on_answButt_clicked()
 {
-    ui->answ->setText("Ответ");
     read_file();
+    ui->answ->setText(str);
+    input_str = input_str+num;
     ui->inp->setText(input_str);
 }
