@@ -25,7 +25,7 @@ QStringList chars;
 
 /*
  * Here goes functions for reading input file
- *
+ * some
  */
 
 void read_file (){
