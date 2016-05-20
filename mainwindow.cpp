@@ -3,7 +3,8 @@
 #include "QFile"
 #include "QMessageBox"
 #include "QTextStream"
-//#include "QDebug"
+#include <QMediaPlayer>
+#include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,19 +25,18 @@ QStringList list;
 QStringList vocab;
 int answ;
 
-//load txt in window
+//load txt in window after
 
 void MainWindow::set(){
     QFile file("input.txt");
 
     if(!file.open(QIODevice::ReadOnly)){
-        QMessageBox::information(0,"Ошибка","Не могу прочитать файл",file.errorString());
+        QMessageBox::information(0,"Не могу прочитать файл",file.errorString());
     } else{
         QTextStream in(&file);
 
-        //qDebug()<<in.readLine();
-
         QString tmp = in.readAll();
+
         ui->inp->setText(tmp);
         in.flush();
     }
@@ -78,7 +78,7 @@ void read_file (){
     QRegExp digit("\\d*"); //reg exp for digits
 
     if(!file.open(QIODevice::ReadOnly)){
-        QMessageBox::information(0,"Ошибка","Не могу прочитать файл",file.errorString());
+        QMessageBox::information(0,"Не могу прочитать файл",file.errorString());
     } else{
 
         QTextStream in(&file);
@@ -126,9 +126,20 @@ void MainWindow::on_save_clicked()
     QFile file("input.txt");
 
     if(!file.open(QIODevice::WriteOnly)){
-        QMessageBox::information(0,"Achtung","Не могу сохранить файл",file.errorString());
+        QMessageBox::information(0,"Не могу сохранить файл",file.errorString());
     } else{
         QTextStream out (&file);
         out<< ui->inp->toPlainText();
     }
+}
+
+//just for fun
+
+void MainWindow::on_present_clicked()
+{
+    QMediaPlayer *player = new QMediaPlayer;
+    player->setMedia(QUrl::fromLocalFile("7army.mp3"));
+    player->setVolume(100);
+    player->play();
+
 }

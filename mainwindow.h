@@ -21,6 +21,8 @@ private slots:
 
     void on_save_clicked();
 
+    void on_present_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
