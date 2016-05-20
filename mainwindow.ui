@@ -46,8 +46,14 @@
       <x>20</x>
       <y>21</y>
       <width>181</width>
-      <height>311</height>
+      <height>281</height>
      </rect>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+    <property name="overwriteMode">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QTextBrowser" name="answ">
@@ -61,6 +67,19 @@
       <width>51</width>
       <height>31</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="save">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>310</y>
+      <width>75</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Сохранить</string>
     </property>
    </widget>
   </widget>

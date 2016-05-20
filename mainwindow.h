@@ -19,6 +19,8 @@ public:
 private slots:
     void on_answButt_clicked();
 
+    void on_save_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

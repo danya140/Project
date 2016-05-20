@@ -120,3 +120,15 @@ void MainWindow::on_answButt_clicked()
     read_file();
     ui->answ->setText(QString::number(answ));
 }
+
+void MainWindow::on_save_clicked()
+{
+    QFile file("input.txt");
+
+    if(!file.open(QIODevice::WriteOnly)){
+        QMessageBox::information(0,"Can't save file",file.errorString());
+    } else{
+        QTextStream out (&file);
+        out<< ui->inp->toPlainText();
+    }
+}
