@@ -24,6 +24,15 @@ QStringList list;
 QStringList chars;
 
 /*
+ * Here goes main logic
+ *
+ */
+
+void calc(){
+
+}
+
+/*
  * Here goes functions for reading input file
  * some
  */
@@ -56,6 +65,11 @@ void read_file (){
         } else{
             chars = tmp.split("");
         }
+
+        in.flush();
+        file.close();
+
+        calc();
 
     }
 }
