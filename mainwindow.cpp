@@ -17,6 +17,8 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//TODO: clear this shit
+
 QString input_str;
 QString str;
 int num;
