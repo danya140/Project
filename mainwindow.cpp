@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -18,13 +19,30 @@ MainWindow::~MainWindow()
 }
 
 //TODO: clear this shit
-
-QString input_str;
-QString str;
 int num;
 QStringList list;
 QStringList vocab;
-int answ = 0;
+int answ;
+
+//load txt in window
+
+void MainWindow::set(){
+    QFile file("input.txt");
+
+    if(!file.open(QIODevice::ReadOnly)){
+        QMessageBox::information(0,"Can't read file",file.errorString());
+    } else{
+        QTextStream in(&file);
+
+        //qDebug()<<in.readLine();
+
+        QString tmp = in.readAll();
+        ui->inp->setText(tmp);
+        in.flush();
+    }
+
+    file.close();
+}
 
 /*
  * Here goes main logic
@@ -32,6 +50,8 @@ int answ = 0;
  */
 
 void calc(){
+
+    answ = 0;
 
     QString tmp;
     int len=0;
@@ -51,7 +71,6 @@ void calc(){
 
 /*
  * Here goes functions for reading input file
- * some
  */
 
 void read_file (){
@@ -95,10 +114,9 @@ void read_file (){
  * Here goes UI functions
  * Just answer button call back
  */
+
 void MainWindow::on_answButt_clicked()
 {
     read_file();
     ui->answ->setText(QString::number(answ));
-    input_str = input_str+num;
-    ui->inp->setText(input_str);
 }
