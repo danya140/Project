@@ -21,7 +21,8 @@ QString input_str;
 QString str;
 int num;
 QStringList list;
-QStringList chars;
+QStringList vocab;
+int answ = 0;
 
 /*
  * Here goes main logic
@@ -30,6 +31,20 @@ QStringList chars;
 
 void calc(){
 
+    QString tmp;
+    int len=0;
+    for(int j = 0; j != num; j++){
+        tmp = list.at(j);
+        for(int i = vocab.length()-2; i != 0; i--){
+
+            if(tmp.length() != len ){
+                tmp.contains(vocab.at(i)) ? len++ : true;
+            }
+        }
+
+        tmp.length()==len ? answ++ : false;
+        len = 0;
+    }
 }
 
 /*
@@ -55,7 +70,7 @@ void read_file (){
             num=tmp.toInt();
         }
 
-        for(; num != 0; num--){
+        for(int i = num; i != 0; i--){
             list<<in.readLine();
         }
 
@@ -63,7 +78,7 @@ void read_file (){
         if(tmp.length()>100 || tmp.isEmpty()){
             QMessageBox::information(0,"Errrrror","So much chars or no chars");
         } else{
-            chars = tmp.split("");
+            vocab = tmp.split("");
         }
 
         in.flush();
@@ -81,7 +96,7 @@ void read_file (){
 void MainWindow::on_answButt_clicked()
 {
     read_file();
-    ui->answ->setText(str);
+    ui->answ->setText(QString::number(answ));
     input_str = input_str+num;
     ui->inp->setText(input_str);
 }
