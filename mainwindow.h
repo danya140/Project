@@ -3,6 +3,10 @@
 
 #include <QMainWindow>
 #include <QMediaPlayer>
+#include "QFile"
+#include "QMessageBox"
+#include "QTextStream"
+#include <QUrl>
 
 namespace Ui {
 class MainWindow;

@@ -18,3 +18,5 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+win32:RC_FILE = ico.rc
