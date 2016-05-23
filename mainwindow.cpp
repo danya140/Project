@@ -3,7 +3,6 @@
 #include "QFile"
 #include "QMessageBox"
 #include "QTextStream"
-#include <QMediaPlayer>
 #include <QUrl>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -40,6 +39,9 @@ void MainWindow::set(){
         ui->inp->setText(tmp);
         in.flush();
     }
+
+    ui->kek->setVisible(false);
+    ui->win->setVisible(false);
 
     file.close();
 }
@@ -117,8 +119,19 @@ void read_file (){
 
 void MainWindow::on_answButt_clicked()
 {
-    read_file();
-    ui->answ->setText(QString::number(answ));
+    if(ui->answButt->text()!="X"){
+        read_file();
+        ui->answ->setText(QString::number(answ));
+    } else{
+
+        ui->inp->setVisible(false);
+        ui->win->setVisible(true);
+        ui->kek->setVisible(false);
+
+        player->stop();
+        player->setMedia(QUrl::fromLocalFile("win.mp3"));
+        player->play();
+    }
 }
 
 void MainWindow::on_save_clicked()
@@ -137,9 +150,11 @@ void MainWindow::on_save_clicked()
 
 void MainWindow::on_present_clicked()
 {
-    QMediaPlayer *player = new QMediaPlayer;
     player->setMedia(QUrl::fromLocalFile("7army.mp3"));
     player->setVolume(100);
     player->play();
+
+    ui->kek->setVisible(true);
+    ui->answButt->setText("X");
 
 }
