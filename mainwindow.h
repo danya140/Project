@@ -27,6 +27,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player = new QMediaPlayer;
+    QMediaPlayer *player1 = new QMediaPlayer;
 };
 
 #endif // MAINWINDOW_H

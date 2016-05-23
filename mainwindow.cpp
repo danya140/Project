@@ -128,9 +128,10 @@ void MainWindow::on_answButt_clicked()
         ui->win->setVisible(true);
         ui->kek->setVisible(false);
 
-        player->stop();
-        player->setMedia(QUrl::fromLocalFile("win.mp3"));
-        player->play();
+        player1->stop();
+        player1->setMedia(QUrl::fromLocalFile("win.mp3"));
+        player1->setVolume(100);
+        player1->play();
     }
 }
 
@@ -156,5 +157,7 @@ void MainWindow::on_present_clicked()
 
     ui->kek->setVisible(true);
     ui->answButt->setText("X");
+
+    ui->present->setDisabled(true);
 
 }
