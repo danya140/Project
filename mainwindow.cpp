@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QVideoWidget>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -133,13 +134,28 @@ void MainWindow::on_answButt_clicked()
 
 void MainWindow::on_save_clicked()
 {
-    QFile file("input.txt");
+    if(ui->answButt->text() != "X"){
+        QFile file("input.txt");
 
-    if(!file.open(QIODevice::WriteOnly)){
-        QMessageBox::information(0,"Не могу сохранить файл",file.errorString());
+        if(!file.open(QIODevice::WriteOnly)){
+            QMessageBox::information(0,"Не могу сохранить файл",file.errorString());
+        } else{
+            QTextStream out (&file);
+            out<< ui->inp->toPlainText();
+        }
     } else{
-        QTextStream out (&file);
-        out<< ui->inp->toPlainText();
+        player->stop();
+
+        QVideoWidget *videoWidget = new QVideoWidget;
+
+        mediaPlayer.setVideoOutput(videoWidget);
+        videoWidget->setGeometry(100,100,500,400);
+        videoWidget->show();
+
+        mediaPlayer.setMedia(QUrl::fromLocalFile("Strong.avi"));
+        mediaPlayer.play();
+        videoWidget->setAttribute(Qt::WA_DeleteOnClose);
+        connect(videoWidget,SIGNAL(destroyed(QObject*)),this,SLOT(widgetDestroyed()));
     }
 }
 
@@ -156,4 +172,8 @@ void MainWindow::on_present_clicked()
 
     ui->present->setDisabled(true);
 
+}
+
+void MainWindow::widgetDestroyed(){
+    mediaPlayer.stop();
 }
