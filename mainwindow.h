@@ -8,6 +8,11 @@
 #include "QTextStream"
 #include <QUrl>
 
+#include <qmediaplayer.h>
+
+#include <QtGui/QMovie>
+#include <QtWidgets/QWidget>
+
 namespace Ui {
 class MainWindow;
 }
@@ -28,10 +33,13 @@ private slots:
 
     void on_present_clicked();
 
+    void widgetDestroyed();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player = new QMediaPlayer;
     QMediaPlayer *player1 = new QMediaPlayer;
+    QMediaPlayer mediaPlayer;
 };
 
 #endif // MAINWINDOW_H
