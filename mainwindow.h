@@ -7,11 +7,8 @@
 #include "QMessageBox"
 #include "QTextStream"
 #include <QUrl>
+#include <QTimer>
 
-#include <qmediaplayer.h>
-
-#include <QtGui/QMovie>
-#include <QtWidgets/QWidget>
 
 namespace Ui {
 class MainWindow;
@@ -35,11 +32,17 @@ private slots:
 
     void widgetDestroyed();
 
+    void timer_overflow();
+
+    void timer1_overflow();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player = new QMediaPlayer;
     QMediaPlayer *player1 = new QMediaPlayer;
     QMediaPlayer mediaPlayer;
+    QTimer *timer;
+    QTimer *timer1;
 };
 
 #endif // MAINWINDOW_H

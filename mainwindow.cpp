@@ -39,6 +39,17 @@ void MainWindow::set(){
 
     ui->kek->setVisible(false);
     ui->win->setVisible(false);
+    ui->time->setVisible(false);
+
+    QPalette pal = ui->time->palette();
+
+    pal.setColor(ui->time->foregroundRole(),Qt::red);
+    ui->time->setPalette(pal);
+
+    timer = new QTimer;
+    timer1 = new QTimer;
+    QObject::connect(timer,SIGNAL(timeout()),this,SLOT(timer_overflow()));
+    QObject::connect(timer1,SIGNAL(timeout()),this,SLOT(timer1_overflow()));
 
     file.close();
 }
@@ -124,11 +135,14 @@ void MainWindow::on_answButt_clicked()
         ui->inp->setVisible(false);
         ui->win->setVisible(true);
         ui->kek->setVisible(false);
+        ui->time->setVisible(false);
 
         player1->stop();
         player1->setMedia(QUrl::fromLocalFile("win.mp3"));
         player1->setVolume(100);
         player1->play();
+
+        timer->stop();
     }
 }
 
@@ -156,6 +170,7 @@ void MainWindow::on_save_clicked()
         mediaPlayer.play();
         videoWidget->setAttribute(Qt::WA_DeleteOnClose);
         connect(videoWidget,SIGNAL(destroyed(QObject*)),this,SLOT(widgetDestroyed()));
+
     }
 }
 
@@ -170,10 +185,25 @@ void MainWindow::on_present_clicked()
     ui->kek->setVisible(true);
     ui->answButt->setText("X");
 
+    ui->time->setVisible(true);
+    timer->start(120000);
+    timer1->start(1);
+
     ui->present->setDisabled(true);
 
 }
 
 void MainWindow::widgetDestroyed(){
     mediaPlayer.stop();
+}
+
+void MainWindow::timer_overflow(){
+    QApplication::quit();
+}
+
+void MainWindow::timer1_overflow(){
+    QString t= QString::number(timer->remainingTime());
+
+    ui->time->setText(t);
+    timer1->start(1);
 }
