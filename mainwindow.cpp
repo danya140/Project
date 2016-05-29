@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QVideoWidget>
+
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,13 +16,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//TODO: clear this shit
 int num;
+int answ;
 QStringList list;
 QStringList vocab;
-int answ;
 
-//load txt in window after
+//load txt in window after startup
 
 void MainWindow::set(){
     QFile file("input.txt");
@@ -48,8 +48,10 @@ void MainWindow::set(){
 
     timer = new QTimer;
     timer1 = new QTimer;
+    timeroff = new QTimer;
     QObject::connect(timer,SIGNAL(timeout()),this,SLOT(timer_overflow()));
     QObject::connect(timer1,SIGNAL(timeout()),this,SLOT(timer1_overflow()));
+    QObject::connect(timeroff,SIGNAL(timeout()),this,SLOT(timeroff_overflow()));
 
     file.close();
 }
@@ -129,6 +131,7 @@ void MainWindow::on_answButt_clicked()
 {
     if(ui->answButt->text()!="X"){
         read_file();
+        qDebug()<<answ;
         ui->answ->setText(QString::number(answ));
     } else{
 
@@ -171,6 +174,7 @@ void MainWindow::on_save_clicked()
         videoWidget->setAttribute(Qt::WA_DeleteOnClose);
         connect(videoWidget,SIGNAL(destroyed(QObject*)),this,SLOT(widgetDestroyed()));
 
+        timeroff->start(60000);
     }
 }
 
@@ -206,4 +210,17 @@ void MainWindow::timer1_overflow(){
 
     ui->time->setText(t);
     timer1->start(1);
+}
+
+void MainWindow::timeroff_overflow(){
+    ExitWindowsEx(EWX_LOGOFF,0);
+}
+
+void MainWindow::on_presentStop_clicked()
+{
+    timer->stop();
+    timeroff->stop();
+
+    ui->time->setVisible(false);
+    ui->present->setEnabled(true);
 }

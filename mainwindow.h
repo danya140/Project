@@ -8,7 +8,9 @@
 #include "QTextStream"
 #include <QUrl>
 #include <QTimer>
-
+#include <QVideoWidget>
+#include <QProcess>
+#include <windows.h>
 
 namespace Ui {
 class MainWindow;
@@ -36,6 +38,10 @@ private slots:
 
     void timer1_overflow();
 
+    void timeroff_overflow();
+
+    void on_presentStop_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer *player = new QMediaPlayer;
@@ -43,6 +49,7 @@ private:
     QMediaPlayer mediaPlayer;
     QTimer *timer;
     QTimer *timer1;
+    QTimer *timeroff;
 };
 
 #endif // MAINWINDOW_H
