@@ -18,6 +18,7 @@ MainWindow::~MainWindow()
 
 int num;
 int answ;
+bool error=false;
 QStringList list;
 QStringList vocab;
 
@@ -88,6 +89,7 @@ void calc(){
 void read_file (){
     QFile file("input.txt");
     QRegExp digit("\\d*"); //reg exp for digits
+    QString tmp1;
 
     if(!file.open(QIODevice::ReadOnly)){
         QMessageBox::information(0,"Не могу прочитать файл",file.errorString());
@@ -97,14 +99,20 @@ void read_file (){
         //input_str = in.readAll();
 
         QString tmp = in.readLine();
-        if(tmp.isEmpty() || !digit.exactMatch(tmp) || tmp.length()>=4){ // TODO: better use switch
+        if(tmp.isEmpty() || !digit.exactMatch(tmp) || tmp.length()>=4){
             QMessageBox::information(0,"Ошибка","N пустой или не цифра или больше 999");
         } else{
             num=tmp.toInt();
         }
 
         for(int i = num; i != 0; i--){
-            list<<in.readLine();
+            tmp1=in.readLine();
+            if(tmp1.length()>10){
+                error=true;
+                QMessageBox::information(0,"Errrrror","IQ ниже 10!!!");
+            } else {
+                list<<tmp;
+            }
         }
 
         tmp = in.readLine();
@@ -117,7 +125,9 @@ void read_file (){
         in.flush();
         file.close();
 
-        calc();
+        if(!error){
+            calc();
+        }
 
     }
 }
@@ -132,7 +142,10 @@ void MainWindow::on_answButt_clicked()
     if(ui->answButt->text()!="X"){
         read_file();
         qDebug()<<answ;
-        ui->answ->setText(QString::number(answ));
+        if (!error){
+            ui->answ->setText(QString::number(answ));
+        }
+
     } else{
 
         ui->inp->setVisible(false);
